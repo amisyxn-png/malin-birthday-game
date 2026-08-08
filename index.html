@@ -95,6 +95,16 @@
     createHeart();
     function cakeGame() {
   game.innerHTML = `
+  <div style="padding-top:150px;">
+    <h2>🎂✨ BEAUTIFUL!! ✨🎂</h2>
+    <p>Your cake is ready! 💗</p>
+    <h3>🎁 But wait... there's more!</h3>
+
+    <button onclick="giftGame()">
+      OPEN THE GIFTS 🎁
+    </button>
+  </div>
+`;
     <div style="padding:30px;">
       <h2>🎂 Decorate Malin's Cake 🎂</h2>
 
@@ -129,6 +139,77 @@ function finishCake() {
       <h2>🎂✨ BEAUTIFUL!! ✨🎂</h2>
       <p>You made the cutest birthday cake for YOURSELF! 💗</p>
       <p>🎁 Another surprise is waiting...</p>
+    </div>
+  `;
+    }
+    function giftGame() {
+  game.innerHTML = `
+    <div style="padding:25px;">
+      <h2>🎁 Mystery Gifts 🎁</h2>
+      <p>Choose ONE gift, Malin! 👀💗</p>
+
+      <div style="
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:15px;
+        margin-top:30px;
+      ">
+
+        <button onclick="openGift(1)" style="font-size:50px;">
+          🎁
+        </button>
+
+        <button onclick="openGift(2)" style="font-size:50px;">
+          🎁
+        </button>
+
+        <button onclick="openGift(3)" style="font-size:50px;">
+          🎁
+        </button>
+
+        <button onclick="openGift(4)" style="font-size:50px;">
+          🎁
+        </button>
+
+      </div>
+
+      <p style="margin-top:25px;">
+        ✨ One of these hides something special... ✨
+      </p>
+    </div>
+  `;
+}
+
+function openGift(number) {
+
+  let message = "";
+
+  if (number === 1) {
+    message = "You are literally one of the cutest people ever! 🎀💗";
+  }
+
+  if (number === 2) {
+    message = "Thank you for all the silly and unforgettable memories! 😂💕";
+  }
+
+  if (number === 3) {
+    message = "You deserve ALL the happiness in the world! 🌷✨";
+  }
+
+  if (number === 4) {
+    message = "👀 OHHH... you found the special gift! 🎁💗";
+  }
+
+  game.innerHTML = `
+    <div style="padding-top:150px;">
+      <h2>🎁 YOU OPENED GIFT ${number}! 🎁</h2>
+      <p style="font-size:18px;">${message}</p>
+
+      <br>
+
+      <button onclick="hiddenHeartGame()">
+        NEXT SURPRISE 🕵🏻‍♀️
+      </button>
     </div>
   `;
     }
