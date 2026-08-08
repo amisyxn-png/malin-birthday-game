@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Malin's Birthday Game 🎀</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, serif;
+      background: #fff0f6;
+      color: #70445b;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 35px;
+    }
+
+    #score {
+      font-size: 20px;
+      margin: 15px;
+    }
+
+    #game {
+      width: 90%;
+      max-width: 500px;
+      height: 500px;
+      margin: auto;
+      background: #ffe0ed;
+      border: 3px solid #e9a4c2;
+      border-radius: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 40px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🎀 Malin's Birthday Adventure 🎀</h1>
+
+  <p>Catch 10 hearts to unlock your surprise! 💗</p>
+
+  <div id="score">Hearts: 0 / 10</div>
+
+  <div id="game"></div>
+
+  <script>
+    let score = 0;
+
+    const game = document.getElementById("game");
+    const scoreText = document.getElementById("score");
+
+    function createHeart() {
+      const heart = document.createElement("div");
+
+      heart.className = "heart";
+      heart.innerHTML = "💗";
+
+      heart.style.left = Math.random() * 85 + "%";
+      heart.style.top = Math.random() * 85 + "%";
+
+      heart.onclick = function () {
+        score++;
+
+        scoreText.innerHTML = "Hearts: " + score + " / 10";
+
+        heart.remove();
+
+        if (score === 10) {
+          game.innerHTML = `
+            <div style="padding-top:170px;">
+              <h2>YOU DID IT! 🎉</h2>
+              <p>All the hearts are yours! 💗</p>
+              <h3>🎂 Birthday surprise unlocked! 🎂</h3>
+            </div>
+          `;
+        } else {
+          createHeart();
+        }
+      };
+
+      game.appendChild(heart);
+    }
+
+    createHeart();
+  </script>
+
+</body>
+  </html>
