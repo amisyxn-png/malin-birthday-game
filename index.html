@@ -1,219 +1,631 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Malin's Birthday Game 🎀</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Georgia, serif;
-      background: #fff0f6;
-      color: #70445b;
-      text-align: center;
-    }
+<title>Malin's Birthday Adventure 🎀</title>
 
-    h1 {
-      margin-top: 35px;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    #score {
-      font-size: 20px;
-      margin: 15px;
-    }
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  background: #fff0f6;
+  color: #70445b;
+  text-align: center;
+}
 
-    #game {
-      width: 90%;
-      max-width: 500px;
-      height: 500px;
-      margin: auto;
-      background: #ffe0ed;
-      border: 3px solid #e9a4c2;
-      border-radius: 25px;
-      position: relative;
-      overflow: hidden;
-    }
+h1 {
+  margin: 25px 10px 5px;
+  font-size: 28px;
+}
 
-    .heart {
-      position: absolute;
-      font-size: 40px;
-      cursor: pointer;
-    }
-  </style>
+h2 {
+  margin-top: 10px;
+}
+
+p {
+  font-size: 16px;
+}
+
+.game {
+  width: 92%;
+  max-width: 500px;
+  min-height: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #ffe1ed;
+  border: 3px solid #e8a4c1;
+  border-radius: 25px;
+  position: relative;
+  overflow: hidden;
+}
+
+button {
+  background: #e8a4c1;
+  border: none;
+  border-radius: 20px;
+  padding: 12px 18px;
+  margin: 6px;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* HEART GAME */
+
+#heartArea {
+  height: 380px;
+  position: relative;
+  margin-top: 10px;
+}
+
+.heart {
+  position: absolute;
+  font-size: 42px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* CAKE */
+
+#cake {
+  font-size: 70px;
+  margin: 25px auto;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+/* GIFTS */
+
+.gifts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin: 30px 10px;
+}
+
+.gift {
+  font-size: 55px;
+  padding: 20px;
+}
+
+/* HIDDEN HEARTS */
+
+#hiddenArea {
+  height: 380px;
+  position: relative;
+  background: #ffdce9;
+  border-radius: 20px;
+  margin-top: 15px;
+}
+
+.hiddenHeart {
+  position: absolute;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* MEMORY MATCH */
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.card {
+  height: 85px;
+  background: #f5b8cf;
+  border-radius: 15px;
+  border: 2px solid #d98eae;
+  font-size: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* FINAL */
+
+.final {
+  padding-top: 80px;
+}
+
+.final-photo {
+  width: 85%;
+  max-width: 350px;
+  border-radius: 20px;
+  margin: 15px auto;
+}
+</style>
 </head>
 
 <body>
 
-  <h1>🎀 Malin's Birthday Adventure 🎀</h1>
+<h1>🎀 Malin's Birthday Adventure 🎀</h1>
 
-  <p>Catch 10 hearts to unlock your surprise! 💗</p>
+<div class="game" id="game"></div>
 
-  <div id="score">Hearts: 0 / 10</div>
+<script>
 
-  <div id="game"></div>
+let game = document.getElementById("game");
 
-  <script>
-    let score = 0;
 
-    const game = document.getElementById("game");
-    const scoreText = document.getElementById("score");
+/* =========================
+   LEVEL 1 — CATCH HEARTS
+========================= */
 
-    function createHeart() {
-      const heart = document.createElement("div");
+let score = 0;
 
-      heart.className = "heart";
-      heart.innerHTML = "💗";
+function startHeartGame() {
 
-      heart.style.left = Math.random() * 85 + "%";
-      heart.style.top = Math.random() * 85 + "%";
+  score = 0;
 
-      heart.onclick = function () {
-        score++;
+  game.innerHTML = `
+    <h2>💗 Catch the Hearts 💗</h2>
+    <p>Catch 10 hearts to unlock the next surprise!</p>
 
-        scoreText.innerHTML = "Hearts: " + score + " / 10";
+    <div>
+      Hearts: <span id="score">0</span> / 10
+    </div>
 
-        heart.remove();
+    <div id="heartArea"></div>
+  `;
 
-        if (score === 10) {
-          game.innerHTML = `
-  <div style="padding-top:150px;">
-    <h2>YOU DID IT! 🎉</h2>
-    <p>All the hearts are yours! 💗</p>
-    <h3>🎂 Ready for the next level?</h3>
-    <button onclick="cakeGame()">DECORATE THE CAKE 🎀</button>
-  </div>
-`;
-        } else {
-          createHeart();
-        }
-      };
+  createHeart();
+}
 
-      game.appendChild(heart);
+
+function createHeart() {
+
+  const area = document.getElementById("heartArea");
+
+  if (!area) return;
+
+  area.innerHTML = "";
+
+  const heart = document.createElement("div");
+
+  heart.className = "heart";
+  heart.innerHTML = "💗";
+
+  heart.style.left = Math.random() * 85 + "%";
+  heart.style.top = Math.random() * 85 + "%";
+
+  heart.onclick = function() {
+
+    score++;
+
+    document.getElementById("score").innerText = score;
+
+    if (score >= 10) {
+
+      game.innerHTML = `
+        <div style="padding-top:120px;">
+          <h2>YOU DID IT! 🎉</h2>
+
+          <p>You caught all 10 hearts! 💗</p>
+
+          <p>Something sweet is waiting...</p>
+
+          <button onclick="cakeGame()">
+            NEXT LEVEL 🎂
+          </button>
+        </div>
+      `;
+
+    } else {
+
+      createHeart();
+
     }
 
-    createHeart();
-    function cakeGame() {
+  };
+
+  area.appendChild(heart);
+}
+
+
+/* =========================
+   LEVEL 2 — CAKE
+========================= */
+
+function cakeGame() {
+
   game.innerHTML = `
-  <div style="padding-top:150px;">
-    <h2>🎂✨ BEAUTIFUL!! ✨🎂</h2>
-    <p>Your cake is ready! 💗</p>
-    <h3>🎁 But wait... there's more!</h3>
+    <h2>🎂 Decorate Malin's Cake 🎂</h2>
 
-    <button onclick="giftGame()">
-      OPEN THE GIFTS 🎁
+    <p>Choose some decorations!</p>
+
+    <div id="cake">🎂</div>
+
+    <button onclick="decorate('🎀')">🎀</button>
+    <button onclick="decorate('🍓')">🍓</button>
+    <button onclick="decorate('🌸')">🌸</button>
+    <button onclick="decorate('💗')">💗</button>
+    <button onclick="decorate('🕯️')">🕯️</button>
+
+    <br>
+
+    <button onclick="finishCake()">
+      FINISH CAKE ✨
     </button>
-  </div>
-`;
-    <div style="padding:30px;">
-      <h2>🎂 Decorate Malin's Cake 🎂</h2>
-
-      <div id="cake" style="
-        font-size:100px;
-        margin:30px;
-      ">🎂</div>
-
-      <p>Choose your decorations! 🎀</p>
-
-      <button onclick="addDecoration('🎀')">🎀 Bow</button>
-      <button onclick="addDecoration('🍓')">🍓 Strawberry</button>
-      <button onclick="addDecoration('🌸')">🌸 Flower</button>
-      <button onclick="addDecoration('🕯️')">🕯️ Candle</button>
-
-      <br><br>
-
-      <button onclick="finishCake()">
-        FINISH CAKE 💗
-      </button>
-    </div>
   `;
+
 }
 
-function addDecoration(item) {
+
+function decorate(item) {
+
   document.getElementById("cake").innerHTML += item;
+
 }
+
 
 function finishCake() {
+
   game.innerHTML = `
-    <div style="padding-top:170px;">
-      <h2>🎂✨ BEAUTIFUL!! ✨🎂</h2>
-      <p>You made the cutest birthday cake for YOURSELF! 💗</p>
-      <p>🎁 Another surprise is waiting...</p>
+    <div style="padding-top:120px;">
+
+      <h2>🎂✨ SO CUTE! ✨🎂</h2>
+
+      <p>You made a birthday cake for Malin! 💗</p>
+
+      <button onclick="giftGame()">
+        NEXT LEVEL 🎁
+      </button>
+
     </div>
   `;
-    }
-    function giftGame() {
-  game.innerHTML = `
-    <div style="padding:25px;">
-      <h2>🎁 Mystery Gifts 🎁</h2>
-      <p>Choose ONE gift, Malin! 👀💗</p>
 
-      <div style="
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:15px;
-        margin-top:30px;
-      ">
-
-        <button onclick="openGift(1)" style="font-size:50px;">
-          🎁
-        </button>
-
-        <button onclick="openGift(2)" style="font-size:50px;">
-          🎁
-        </button>
-
-        <button onclick="openGift(3)" style="font-size:50px;">
-          🎁
-        </button>
-
-        <button onclick="openGift(4)" style="font-size:50px;">
-          🎁
-        </button>
-
-      </div>
-
-      <p style="margin-top:25px;">
-        ✨ One of these hides something special... ✨
-      </p>
-    </div>
-  `;
 }
+
+
+/* =========================
+   LEVEL 3 — GIFTS
+========================= */
+
+function giftGame() {
+
+  game.innerHTML = `
+
+    <h2>🎁 Mystery Gifts 🎁</h2>
+
+    <p>Choose ONE gift...</p>
+
+    <div class="gifts">
+
+      <button class="gift" onclick="openGift(1)">
+        🎁
+      </button>
+
+      <button class="gift" onclick="openGift(2)">
+        🎁
+      </button>
+
+      <button class="gift" onclick="openGift(3)">
+        🎁
+      </button>
+
+      <button class="gift" onclick="openGift(4)">
+        🎁
+      </button>
+
+    </div>
+
+    <p>👀 One of them has something special...</p>
+  `;
+
+}
+
 
 function openGift(number) {
 
-  let message = "";
+  let message;
 
   if (number === 1) {
-    message = "You are literally one of the cutest people ever! 🎀💗";
+
+    message =
+    "You are literally one of the cutest people ever! 🎀💗";
+
   }
 
   if (number === 2) {
-    message = "Thank you for all the silly and unforgettable memories! 😂💕";
+
+    message =
+    "Thank you for all our silly and unforgettable memories! 😂💕";
+
   }
 
   if (number === 3) {
-    message = "You deserve ALL the happiness in the world! 🌷✨";
+
+    message =
+    "You deserve so much happiness and love! 🌷✨";
+
   }
 
   if (number === 4) {
-    message = "👀 OHHH... you found the special gift! 🎁💗";
+
+    message =
+    "OMG! You found the special gift! 🎁💗";
+
   }
 
   game.innerHTML = `
-    <div style="padding-top:150px;">
-      <h2>🎁 YOU OPENED GIFT ${number}! 🎁</h2>
-      <p style="font-size:18px;">${message}</p>
 
-      <br>
+    <div style="padding-top:110px;">
+
+      <h2>🎁 Gift ${number} 🎁</h2>
+
+      <p>${message}</p>
 
       <button onclick="hiddenHeartGame()">
-        NEXT SURPRISE 🕵🏻‍♀️
+        NEXT LEVEL 🕵🏻‍♀️
       </button>
+
     </div>
+
   `;
+
+}
+
+
+/* =========================
+   LEVEL 4 — HIDDEN HEARTS
+========================= */
+
+let hiddenScore = 0;
+
+
+function hiddenHeartGame() {
+
+  hiddenScore = 0;
+
+  game.innerHTML = `
+
+    <h2>🕵🏻‍♀️ Find the Hidden Hearts</h2>
+
+    <p>Find all 5 hidden hearts! 💗</p>
+
+    <p>
+      Found:
+      <span id="hiddenScore">0</span> / 5
+    </p>
+
+    <div id="hiddenArea"></div>
+
+  `;
+
+  createHiddenHearts();
+
+}
+
+
+function createHiddenHearts() {
+
+  const area = document.getElementById("hiddenArea");
+
+  for (let i = 0; i < 5; i++) {
+
+    const heart = document.createElement("div");
+
+    heart.className = "hiddenHeart";
+
+    heart.innerHTML = "💗";
+
+    heart.style.left =
+      Math.random() * 85 + "%";
+
+    heart.style.top =
+      Math.random() * 85 + "%";
+
+    heart.onclick = function() {
+
+      heart.style.display = "none";
+
+      hiddenScore++;
+
+      document.getElementById("hiddenScore").innerText =
+        hiddenScore;
+
+      if (hiddenScore === 5) {
+
+        game.innerHTML = `
+
+          <div style="padding-top:120px;">
+
+            <h2>YOU FOUND THEM ALL! 🎉</h2>
+
+            <p>You're actually so good at this! 🕵🏻‍♀️💗</p>
+
+            <button onclick="memoryGame()">
+              NEXT LEVEL 📸
+            </button>
+
+          </div>
+
+        `;
+
+      }
+
+    };
+
+    area.appendChild(heart);
+
+  }
+
+}
+
+
+/* =========================
+   LEVEL 5 — MEMORY MATCH
+========================= */
+
+let cards = [
+  "🎀",
+  "🎀",
+  "🌸",
+  "🌸",
+  "💗",
+  "💗"
+];
+
+let firstCard = null;
+let secondCard = null;
+let matched = 0;
+
+
+function memoryGame() {
+
+  firstCard = null;
+  secondCard = null;
+  matched = 0;
+
+  cards.sort(() => Math.random() - 0.5);
+
+  game.innerHTML = `
+
+    <h2>📸 Memory Match</h2>
+
+    <p>Find all the matching pairs!</p>
+
+    <div class="memory-grid" id="memoryGrid"></div>
+
+  `;
+
+  const grid =
+    document.getElementById("memoryGrid");
+
+  cards.forEach((symbol, index) => {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = "❓";
+
+    card.dataset.symbol = symbol;
+
+    card.onclick = function() {
+
+      flipCard(card);
+
+    };
+
+    grid.appendChild(card);
+
+  });
+
+}
+
+
+function flipCard(card) {
+
+  if (
+    card.innerHTML !== "❓" ||
+    secondCard
+  ) return;
+
+  card.innerHTML = card.dataset.symbol;
+
+  if (!firstCard) {
+
+    firstCard = card;
+
+  } else {
+
+    secondCard = card;
+
+    if (
+      firstCard.dataset.symbol ===
+      secondCard.dataset.symbol
+    ) {
+
+      matched++;
+
+      firstCard = null;
+      secondCard = null;
+
+      if (matched === 3) {
+
+        setTimeout(finalMessage, 500);
+
+      }
+
+    } else {
+
+      setTimeout(() => {
+
+        firstCard.innerHTML = "❓";
+        secondCard.innerHTML = "❓";
+
+        firstCard = null;
+        secondCard = null;
+
+      }, 700);
+
     }
-  </script>
+
+  }
+
+}
+
+
+/* =========================
+   FINAL MESSAGE
+========================= */
+
+function finalMessage() {
+
+  game.innerHTML = `
+
+    <div class="final">
+
+      <h2>💌 YOU UNLOCKED EVERYTHING! 💌</h2>
+
+      <p style="font-size:20px;">
+        Happy Birthday, Malin! 🎂🎀
+      </p>
+
+      <p>
+        I hope your day is filled with happiness,
+        laughter, cute moments and lots of cake! 💗
+      </p>
+
+      <p>
+        Thank you for being such an amazing friend.
+        Here's to many more memories together! 🌷
+      </p>
+
+      <h2>🎀💗🎀</h2>
+
+      <button onclick="startHeartGame()">
+        PLAY AGAIN 🔄
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+/* START GAME */
+
+startHeartGame();
+
+</script>
 
 </body>
   </html>
