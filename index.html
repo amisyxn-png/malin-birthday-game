@@ -77,12 +77,13 @@
 
         if (score === 10) {
           game.innerHTML = `
-            <div style="padding-top:170px;">
-              <h2>YOU DID IT! 🎉</h2>
-              <p>All the hearts are yours! 💗</p>
-              <h3>🎂 Birthday surprise unlocked! 🎂</h3>
-            </div>
-          `;
+  <div style="padding-top:150px;">
+    <h2>YOU DID IT! 🎉</h2>
+    <p>All the hearts are yours! 💗</p>
+    <h3>🎂 Ready for the next level?</h3>
+    <button onclick="cakeGame()">DECORATE THE CAKE 🎀</button>
+  </div>
+`;
         } else {
           createHeart();
         }
@@ -92,6 +93,45 @@
     }
 
     createHeart();
+    function cakeGame() {
+  game.innerHTML = `
+    <div style="padding:30px;">
+      <h2>🎂 Decorate Malin's Cake 🎂</h2>
+
+      <div id="cake" style="
+        font-size:100px;
+        margin:30px;
+      ">🎂</div>
+
+      <p>Choose your decorations! 🎀</p>
+
+      <button onclick="addDecoration('🎀')">🎀 Bow</button>
+      <button onclick="addDecoration('🍓')">🍓 Strawberry</button>
+      <button onclick="addDecoration('🌸')">🌸 Flower</button>
+      <button onclick="addDecoration('🕯️')">🕯️ Candle</button>
+
+      <br><br>
+
+      <button onclick="finishCake()">
+        FINISH CAKE 💗
+      </button>
+    </div>
+  `;
+}
+
+function addDecoration(item) {
+  document.getElementById("cake").innerHTML += item;
+}
+
+function finishCake() {
+  game.innerHTML = `
+    <div style="padding-top:170px;">
+      <h2>🎂✨ BEAUTIFUL!! ✨🎂</h2>
+      <p>You made the cutest birthday cake for Malin! 💗</p>
+      <p>🎁 Another surprise is waiting...</p>
+    </div>
+  `;
+    }
   </script>
 
 </body>
